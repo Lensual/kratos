@@ -16,6 +16,10 @@ type {{.ServiceType}}HTTPServer interface {
 
 func Register{{.ServiceType}}HTTPServer(s *http.Server, srv {{.ServiceType}}HTTPServer) {
 	r := s.Route("/")
+	Register{{.ServiceType}}HTTPRouter(r, srv)
+}
+
+func Register{{.ServiceType}}HTTPRouter(r *http.Router, srv {{.ServiceType}}HTTPServer) {
 	{{- range .Methods}}
 	r.{{.Method}}("{{.Path}}", _{{$svrType}}_{{.Name}}{{.Num}}_HTTP_Handler(srv))
 	{{- end}}
